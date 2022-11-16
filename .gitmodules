@@ -1,0 +1,6 @@
+[submodule "main/frozen"]
+	path = main/frozen
+	url = https://github.com/cesanta/frozen
+[submodule "main/BME280_driver"]
+	path = main/BME280_driver
+	url = https://github.com/BoschSensortec/BME280_driver

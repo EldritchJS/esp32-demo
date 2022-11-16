@@ -1,0 +1,195 @@
+menu "ESP32 Demo Config"
+
+	config ESP32_DEMO_DEFAULT_TZ
+		string "Default time zone"
+		default "CET-1CST,M3.5.0/02:00:00,M10.5.0/03:00:00"
+
+	config ESP32_DEMO_NTP_SERVER
+		string "NTP server name"
+		default "pool.ntp.org"
+
+	config ESP32_DEMO_SKIP_COMMON_NAME_CHECK
+		bool "Skip server certificate CN fieldcheck"
+		default n
+		help
+			This allows you to skip the validation of OTA server certificate CN field.
+
+	config ESP32_DEMO_OTA_RECV_TIMEOUT
+		int "OTA Receive Timeout"
+		default 5000
+		help
+			Maximum time for reception
+
+	config COPROCESSOR_UART_ENABLE
+		bool "Enable Coprocessor UART"
+		default n
+
+        menu "Ultrasonic Sensor"
+
+		config ULTRASONIC_ENABLE
+			bool "Use ultrasonic sensor"
+			default n
+			help
+				Enable ultrasonic sensor
+
+		config ULTRASONIC_TRIGGER_GPIO
+			int "Trigger GPIO number"
+			default 4 if IDF_TARGET_ESP8266
+			default 1 if IDF_TARGET_ESP32C3
+			default 17 if IDF_TARGET_ESP32 || IDF_TARGET_ESP32S2 || IDF_TARGET_ESP32S3
+        		help
+            			GPIO number for TRIGGER pin of ultrasonic module
+
+    		config ULTRASONIC_ECHO_GPIO
+        		int "Echo GPIO number"
+        		default 5 if IDF_TARGET_ESP8266
+			default 18 if IDF_TARGET_ESP32C3
+        		default 16 if IDF_TARGET_ESP32 || IDF_TARGET_ESP32S2 || IDF_TARGET_ESP32S3
+        		help
+            			GPIO number for ECHO pin of ultrasonic module
+    
+    		config ULTRASONIC_MAX_DISTANCE
+    			int "Maximal distance, cm"
+    			default 500
+    			help
+    	    			Maximum measurable distance. If the distance is greater than this parameter, there will be a timeout
+	endmenu
+	
+	menu "BME280 SPI - Currently not functional!!!"
+		config BME280_SPI_ENABLE
+			bool "Use BME280 SPI module"
+			default n
+		
+		config BME280_SPI_CS
+			int "CS GPIO Number"
+			default 1 
+	endmenu
+
+	menu "BME280 I2C"
+		config BME280_I2C_ENABLE
+			bool "Use BME280 I2C module"
+			default n
+
+		config BME280_I2C_MASTER_SCL
+        		int "SCL GPIO Number"
+        		default 5 if IDF_TARGET_ESP8266
+        		default 3 if IDF_TARGET_ESP32C3
+        		default 19 if IDF_TARGET_ESP32 || IDF_TARGET_ESP32S2 || IDF_TARGET_ESP32S3
+        		help
+            			GPIO number for I2C Master clock line.
+
+    		config BME280_I2C_MASTER_SDA
+        		int "SDA GPIO Number"
+        		default 4 if IDF_TARGET_ESP8266
+        		default 19 if IDF_TARGET_ESP32C3
+        		default 18 if IDF_TARGET_ESP32 || IDF_TARGET_ESP32S2 || IDF_TARGET_ESP32S3
+        		help
+            			GPIO number for I2C Master data line.
+
+	endmenu
+	
+	menu "PMOD OLEDRGB"
+
+		config OLEDRGB_ENABLE
+			bool "Use PMOD OLEDRGB module"
+			default n
+			help
+				Use PMOD OLEDRGB display
+		
+		config OLEDRGB_GPIO_MOSI
+			int "PMOD OLEDRGB SPI MOSI GPIO number"
+			default 7
+			help
+				SPI MOSI GPIO number
+
+		config OLEDRGB_GPIO_CLK
+			int "PMOD OLEDRGB SPI CLK GPIO number"
+			default 6
+			help
+				SPI MOSI CLK number
+
+		config OLEDRGB_GPIO_CS
+			int "PMOD OLEDRGB SPI CS GPIO number"
+			default 5
+			help
+				SPI MOSI CS number
+	
+		config OLEDRGB_GPIO_DC
+			int "PMOD OLEDRGB Data/Command GPIO number"
+			default 9
+			help
+				Data/Command GPIO number
+
+		config OLEDRGB_GPIO_VEN
+			int "PMOD OLEDRGB Reset GPIO number"
+			default 4
+			help
+				Reset GPIO number
+
+		config OLEDRGB_GPIO_PME
+			int "PMOD OLEDRGB PMODE Enable GPIO number"
+			default 0 
+			help
+				PMODE Enable GPIO number
+
+		config OLEDRGB_GPIO_RST
+			int "PMOD OLEDRGB VCC Enable GPIO number"
+			default 8
+			help
+				VCC Enable GPIO number
+
+	endmenu
+
+        menu "SD Filesystem"
+
+		config SD_FS_ENABLE
+			bool "Use SD card filesystem"
+			default n
+			help
+				Enable external SD card filesystem
+		
+		config SD_FS_GPIO_MISO
+			int "SPI MISO GPIO number"
+			default 2
+			help
+				SPI MISO GPIO number
+
+		config SD_FS_GPIO_MOSI
+			int "SPI MOSI GPIO number"
+			default 7
+			help
+				SPI MOSI GPIO number
+
+		config SD_FS_GPIO_CLK
+			int "SPI CLK GPIO number"
+			default 6
+			help
+				SPI CLK GPIO number
+
+		config SD_FS_GPIO_CS
+			int "SPI CS GPIO number"
+			default 10
+			help
+				SPI CS GPIO number
+
+		config SD_FS_MOUNT_POINT
+			string "SD card mount point"
+			default "/sdcard"
+			help
+				SD card mount point
+	endmenu
+
+	menu "Flash Filesystem - This uses a lot of memory, disable other things!!!"
+		config FLASH_FS_ENABLE
+			bool "Use flash filesystem"
+			default n
+			help
+				Enable internal flash filesystem
+
+		config FLASH_FS_MOUNT_POINT
+			string "Flash mount point"
+			default "/data"
+			help
+				Flash mount point
+	endmenu
+endmenu
