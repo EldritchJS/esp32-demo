@@ -31,6 +31,10 @@ static const int RX_BUF_SIZE = 1024;
 #define TXD_PIN 17
 #define RXD_PIN 16
 
+#ifndef UART_SCLK_DEFAULT 
+#define UART_SCLK_DEFAULT 4
+#endif
+
 static void configureUart(void);
 
 static void configureUart(void) 
